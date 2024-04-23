@@ -66,5 +66,26 @@ histogram(~temp | activ,
           ylab = "Activity %")
 detach(beavers_data)
 
+attach(beavers_data)
+windows(15,10)
+qqnorm(temp)
+# this line represents normal distribution
+qqline(temp, col = "red")
 
-                             
+opar <- par(no.readonly = TRUE)
+windows(20,10)
+# arrange plots in 1 rows and 2 column
+par(mfrow = c(1, 2))
+
+with(beavers_data, {
+  qqnorm(temp[activ == "yes"],
+         main = "Beavers active data")
+  qqline(temp[activ == "yes"])
+})
+
+with(beavers_data, {
+  qqnorm(temp[activ == "no"],
+         main = "Beavers inactive data")
+  qqline(temp[activ == "no"])
+})
+  
