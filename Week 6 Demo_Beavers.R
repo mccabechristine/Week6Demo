@@ -19,8 +19,8 @@ View(beaver2)
 
 ## Devise a hypothesis test that we use for this analysis. 
 
-H0: Body temperature is not affected by the activity
-H1: Body temperature is affected by the activity
+# H0: Body temperature is not affected by the activity
+# H1: Body temperature is affected by the activity
 
 # Copying the data to a data frame
 # This is not a necessary step
@@ -40,4 +40,31 @@ beavers_data
 str(beavers_data)
 library(ggplot2)
 # range(beavers_data)
+
+## Question 2 ---------------------------------------------------#
+## Check whether the variables you are using for the hypothesis 
+## test are normally distributed or not. Do this visually and 
+## using a relevant statistical analysis test. 
+## Then decide on which statistical test you will use. ----------# 
+
+windows(16, 10)
+ggplot(beavers_data, aes(x=temp))+geom_histogram()+theme_bw()
+
+ggplot(beavers_data, aes(x=temp))+
+        geom_histogram(breaks=seq(36, 38, .2))+
+        theme_bw()+
+        labs(x = "temp", y = "Activity")+
+        scale_y_continuous(breaks=seq(0,60,5))
+
+library("lattice")
+windows(20,10)
+attach(beavers_data)
+histogram(~temp | activ,
+          data = beavers_data,
+          main = "Distribution of beaver activity data",
+          xlab = "Temperature (degrees)",
+          ylab = "Activity %")
+detach(beavers_data)
+
+
                              
