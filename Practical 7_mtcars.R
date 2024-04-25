@@ -23,3 +23,57 @@
 # What type of variables are they? 
 # Do they need to be converted? 
 # If they do, convert them to the relevant data types in R. 
+
+# H0: Fuel efficiency is not affected by the weight
+# H1: Fuel efficiency is affected by the weight
+
+?mtcars
+str(mtcars)
+View(mtcars)
+
+# summary data can be used 
+summary(mtcars)
+
+windows(16, 10)
+ggplot(mtcars, aes(x=mpg))+geom_histogram()+theme_bw()
+
+ggplot(mtcars, aes(x=mpg))+
+  geom_histogram(breaks=seq(36, 38, .2))+
+  theme_bw()+
+  labs(x = "MPG", y = "Weight")+
+  scale_y_continuous(breaks=seq(0,60,5))
+
+library("lattice")
+windows(20,10)
+attach(mtcars)
+histogram(~mpg | wt,
+          data = mtcars,
+          main = "Distribution of Car data",
+          xlab = "MPG (Miles/US Gallon)",
+          ylab = "Weight (pounds)")
+detach(mtcars)
+
+attach(mtcars)
+windows(15,10)
+qqnorm(wt)
+# this line represents normal distribution
+qqline(wt, col = "red")
+
+opar <- par(no.readonly = TRUE)
+windows(20,10)
+# arrange plots in 1 rows and 2 column
+par(mfrow = c(1, 2))
+
+with(mtcars, {
+  qqnorm(mpg[wt == "yes"],
+         main = "Cars data")
+  qqline(mpg[wt == "yes"])
+})
+
+with(mtcars, {
+  qqnorm(temp[activ == "no"],
+         main = "Beavers inactive data")
+  qqline(temp[activ == "no"])
+})
+
+par(opar)
