@@ -77,3 +77,32 @@ with(mtcars, {
 })
 
 par(opar)
+
+
+# Add normality line
+# to the plot to evaluate normality
+# for active period = no
+opar <- par(no.readonly = TRUE)
+windows(20, 10)
+# arrange plots in 1 row and 2 columns
+par(mfrow = c(1, 2))
+with(mtcars, {
+  qqnorm(hp[am == "manual"],
+         main = "Manual Transmission")
+  qqline(hp[am == "manual"])
+})
+
+with(mtcars, {
+  qqnorm(hp[am == "automatic"],
+         main = "Automatic Transmission")
+  qqline(hp[am == "automatic"])
+})
+
+tapply(hp, am, shapiro.test)
+
+View(mtcars)
+shapiro.test(cars$hp)
+
+# library(rstatix)
+attach(mtcars)
+wilcox.test(hp~am)
