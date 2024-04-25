@@ -88,4 +88,62 @@ with(beavers_data, {
          main = "Beavers inactive data")
   qqline(temp[activ == "no"])
 })
-  
+
+par(opar)
+
+# Formal test of normality
+# provided through widely used Shapiro-Wilks test
+normality_test <- shapiro.test(beavers_data$temp)
+normality_test
+normality_test$p.value
+# p-value tells us the chances that the sample comes 
+# from a normal distribution
+# In this example, p-value is clearly lower than 0.05
+# so not normally distributed
+
+# this method does not work for a dichotomous variable
+# Data needs to be numeric for Shapiro Wilk test
+
+# After consulting the chart, I am examining
+# a dependent continuous variable (temp)
+# with an independent categorical variable 
+# so I use the Mann-Whitney test
+# this is also known as the "Wilcox Test"
+# Format = wilcox.test(dependent~independent)
+attach (beavers_data)
+wilcox.test(temp~activ)
+wilcox.test(beavers_data,temp~activ)
+
+# p-value is < 0.05 so we reject H0 and conclude that 
+# beaver body temperature is affected by activity
+# Reject Null hypothesis and accept the alternative hypothesis 
+# H0: Body temperature is not affected by the activity - REJECT
+# H1: Body temperature is affected by the activity - ACCEPT
+
+# To examine the correlation between variables
+# and whether it is positive or negative
+
+# We can use libraries to help improve
+# the chart. Also includes correlations between variables
+install.packages("psych")
+library(psych)
+
+windows( 16, 10)
+pairs(beavers_data, labels = colnames(beavers_data),
+      main = "Beavers dataset correlation plot")
+
+pairs.panels(beavers_data,
+             smooth = TRUE,        # If tRUE, draws less smooth
+             scale = FALSE,        # If TRUE, scales the correlation text
+             density = TRUE,       # If TRUE, adds density plots and histogram
+             ellipse = TRUE,       # If TRUE, draws ellipses
+             method = "spearman",  # Correlation method (also "pearson")
+             pch = 21,             # pch symbol
+             lm = FALSE,           # If TRUE, plots linear fit rather than
+             cor = TRUE,           # If TRUE, reports correlations
+             jiggle = FALSE,       # If TRUE, data points are juttered
+             factor = 2,           # Jittering factor
+             hist.col = 4,         # Histogram colour
+             stars = TRUE,         # If TRUE, adds significance level with
+             ci = TRUE)            # If True, adds confidence levels
+
